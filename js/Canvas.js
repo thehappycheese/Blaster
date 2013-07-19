@@ -23,6 +23,8 @@ function Canvas(acanvasID){
 	this.currentTime = (new Date()).getTime();
 	this.previousTime = this.currentTime;
 	
+	
+	
 	this.fillContainer = (function(){
 		var container = this.canvas.parentNode;
 		
@@ -50,6 +52,7 @@ function Canvas(acanvasID){
 	}).bind(this);
 	
 	
+	
 	this.toggleFullscreen = (function(){
 		var elem = this.canvas;
 		if(window.document.webkitFullscreenElement === elem){
@@ -61,8 +64,6 @@ function Canvas(acanvasID){
 	}).bind(this);
 	
 	
-	
-
 	
 	this.animate = (function(){
 		if(this.paused == false  &&  this.hasFocus == true){
@@ -97,14 +98,18 @@ function Canvas(acanvasID){
 	}).bind(this));
 	
 	
+	
 	this.canvas.addEventListener("focus",(function(e){
 		this.hasFocus = true;
 	}).bind(this));
 	
 	
+	
 	this.canvas.addEventListener("keydown", (function(kEvent){
 		if(kEvent.keyCode == 32 && kEvent.ctrlKey) this.toggleFullscreen();
 	}).bind(this));
+	
+	
 	
 	this.canvas.addEventListener("mousemove", (function(e){
 		this.mouseX = event.offsetX;
@@ -114,6 +119,7 @@ function Canvas(acanvasID){
 	}).bind(this));
 	
 	
+	
 	window.addEventListener("resize", (function(){
 		this.fillContainer();
 	}).bind(this));
@@ -121,7 +127,6 @@ function Canvas(acanvasID){
 	
 	
 	// == INIT CALLS ==
-	
 	
 	this.fillContainer();
 	window.requestAnimationFrame(this.animate);

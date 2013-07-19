@@ -9,55 +9,70 @@ function ProcessTargetManager(){
 	
 	
 	
-	this.addTarget = (function(t){
+	this.addTarget = (function(t, p){
 		this.targets.push(t);
 		t.manager = this;
 		
-		// createHash
 		
-		t.hash = {};
+		// Create a hash table connecting component names to target members
+		// {"cPosition":{...}, "cView":{...}}
+		var hash = {};
 		for(var item in t){
 			if(this.components[t[item].constructor.name] != undefined){
-				console.log(item, t[item].constructor.name);
-				t.hash[t[item].constructor.name] = t[item];
+				hash[t[item].constructor.name] = t[item];
 			}
 		}
 		
+		// Create a hash matching processes to required arguments:
+		// {"pMove":[{},{}], ....}
+		var hash2 = {}
+		for(var i = 0;i<p.length;i++){
+			hash2[p[i].name] = [];
+			
+			for(var j = 0; j < p[i].requiredComponents.length; j++){
+				var component = hash[p[i].requiredComponents[j].name];
+				if(component === undefined){
+					console.error("Target type '"+t.constructor.name+"' does not have the required component '"
+									+p[i].requiredComponents[j].name + "' for the process '"+
+									p[i].name+"'");
+					return;
+				}else{
+					hash2[p[i].name].push(hash[p[i].requiredComponents[j].name]);
+				}
+				
+			}
+			
+		}
+		
+		t.processes = hash2;
+		
 	}).bind(this);
 	
 	
-	// p is a function to be executed, atags is array of functions:
-	// Targets will be searched for properties with constructors matching
-	// the elements of the atags array. All processes must be added before
-	// any targets are added.
-	// TODO: Add code which will force recalculation of all dependancies
-	//		 by first reprocessing all processes and then revisiting all
-	//		 targets.
-	this.addProcess = (function(p,atags){
-		this.processes.push(p);
+	/// p is a function to be executed, atags is array of functions:
+	/// Targets will be searched for properties with constructors matching
+	/// the elements of the atags array. All processes must be added before
+	/// any targets are added.
+	
+	this.addProcess = (function(p,arequiredComponents){
+		this.processes[p.name] = p;
 		p.manager = this;
-		p.tags = atags;
-		for(var i = 0;i<atags.length;i++){
-			this.components[atags[i].name] = atags[i];
+		p.requiredComponents = arequiredComponents;
+		for(var i = 0; i < p.requiredComponents.length; i++){
+			this.components[p.requiredComponents[i].name] = p.requiredComponents[i];
 		}
 	}).bind(this);
 	
 	
-	// TODO: #############################################################
-	//		 ################### DO THIS ONE FIRST! ######################
-	//		 the next thing to do is change this whole code so that each
-	//		 target keeps a hash like this:
-	//		 {pRender:[refToLocalPosition, refToLocalView],pPhisics:[...],...}
-	//		 This will prevent the costly array making process i am writing below
+	// TODO: Add code which will force recalculation of all dependancies
+	//		 by first reprocessing all processes and then revisiting all
+	//		 targets.
+	
 	
 	this.execute = (function(p){
 		for(var i = 0;i<this.targets.length;i++){
-			if(this.isMatch(p, this.targets[i])){
-				var args = [];
-				for(var j = 0;j<p.tags.length;j++){
-					args.push(this.targets[i].hash[p.tags[j].name]);
-				}
-				p.apply(this.targets[i], args)
+			if(this.targets[i].processes[p.name] !== undefined){
+				p.apply(this.targets[i],this.targets[i].processes[p.name])
 			}
 		}
 	}).bind(this);
@@ -66,6 +81,11 @@ function ProcessTargetManager(){
 	// TODO:
 	
 	this.isMatch = (function(t, p){
+		for(var item in t){
+			if(this.components[t[item].constructor.name] != undefined){
+				t.hash[t[item].constructor.name] = t[item];
+			}
+		}
 		return true;
 	}).bind(this);
 }
