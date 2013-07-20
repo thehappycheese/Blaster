@@ -54,7 +54,7 @@ function ProcessTargetManager(){
 	/// the elements of the atags array. All processes must be added before
 	/// any targets are added.
 	
-	this.addProcess = (function(p,arequiredComponents){
+	this.addProcess = (function(p){
 		this.processes[p.name] = p;
 		p.manager = this;
 		p.requiredComponents = arequiredComponents;

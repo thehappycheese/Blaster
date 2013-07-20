@@ -4,6 +4,10 @@ canvas{
 	margin-left:auto;
 	margin-right:auto;
 }
+canvas:focus{
+	outline:1px solid grey;
+	outline-offset:2px;
+}
 
 body{
 	color:white;

@@ -49,6 +49,8 @@ function Canvas(acanvasID){
 		this.canvas.style.width = aw.toFixed(0)+"px";
 		this.canvas.style.height = ah.toFixed(0)+"px";
 		
+		this.dispatch("resize",{w:aw,h:ah});
+		
 	}).bind(this);
 	
 	
@@ -94,13 +96,19 @@ function Canvas(acanvasID){
 	// == EVENT LISTENERS ==
 	
 	this.canvas.addEventListener("blur",(function(e){
-		this.hasFocus = false;
+		if(this.hasFocus == true){
+			this.dispatch("blur");
+			this.hasFocus = false;
+		}
 	}).bind(this));
 	
 	
 	
 	this.canvas.addEventListener("focus",(function(e){
-		this.hasFocus = true;
+		if(this.hasFocus == false){
+			this.dispatch("focus");
+			this.hasFocus = true;
+		}
 	}).bind(this));
 	
 	

@@ -6,8 +6,9 @@ var input = new (function(){
 	
 	this.target = window;
 	
-	this.keysDown =[];
+	this.keysDown = [];
 	for(var i =0;i<128;i++){this.keysDown.push(false);}
+	
 	
 	
 	this.keyUp = (function(e){
@@ -56,6 +57,7 @@ var input = new (function(){
 	}).bind(this);
 	
 	
+	
 	this.removeTarget = (function(){
 		if(this.target!=null){
 			this.target.removeEventListener("keyup",   this.keyUp);
@@ -66,6 +68,7 @@ var input = new (function(){
 			this.target = null;
 		}
 	}).bind(this);
+	
 	
 	
 	this.setTarget = (function(t){
@@ -79,7 +82,9 @@ var input = new (function(){
 	}).bind(this);
 	
 	
+	
 	this.setTarget(window);
+	
 	
 	
 	this.leftButton = 0;
