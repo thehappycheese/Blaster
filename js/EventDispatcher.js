@@ -1,7 +1,11 @@
-"use strict";
 
 function EventDispatcher() {
-
+	"use strict";
+	
+	if(this.isEventDispatcher == true){
+		return;
+	}
+	this.isEventDispatcher = true;
 	this.events = {};
 
 	this.on = (function (eventName, eventFunction) {

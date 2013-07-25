@@ -4,20 +4,19 @@ function Canvas(acanvasID){
 	"use strict";
 	
 	EventDispatcher.call(this);
+	InputReciever.call(this, this.canvas);
 	
 	this.canvas = window.document.getElementById(acanvasID);
 	this.canvas.tabIndex = 1;
 	this.canvas.focus();
+	
 	this.ctx = this.canvas.getContext("2d");
 	this.aspectRatio = 16/9;
 	this.hasFocus = true;
 	this.paused = false;
 	
 	
-	this.mouseX = 0;
-	this.mouseY = 0;
-	this.mouseDeltaX = 0;
-	this.mouseDeltaY = 0;
+	
 	
 	
 	this.currentTime = (new Date()).getTime();
@@ -115,15 +114,6 @@ function Canvas(acanvasID){
 	
 	this.canvas.addEventListener("keydown", (function(kEvent){
 		if(kEvent.keyCode == 32 && kEvent.ctrlKey) this.toggleFullscreen();
-	}).bind(this));
-	
-	
-	
-	this.canvas.addEventListener("mousemove", (function(e){
-		this.mouseX = event.offsetX;
-		this.mouseY = event.offsetY;
-		this.mouseDeltaX += event.webkitMovementX;
-		this.mouseDeltaY += event.webkitMovementY;
 	}).bind(this));
 	
 	

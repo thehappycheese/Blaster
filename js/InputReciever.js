@@ -1,14 +1,13 @@
 
 
-var input = new (function(){
+function InputReciever (atarget){
 	
 	EventDispatcher.call(this);
 	
-	this.target = window;
+	this.target = atarget || window;
 	
 	this.keysDown = [];
 	for(var i =0;i<128;i++){this.keysDown.push(false);}
-	
 	
 	
 	this.keyUp = (function(e){
@@ -31,12 +30,19 @@ var input = new (function(){
 	
 	
 	
+	// ========= MOUSE ================
+	
+	this.mouseX = 0;
+	this.mouseY = 0;
+	this.mouseDeltaX = 0;
+	this.mouseDeltaY = 0;
+	
 	this.buttonsDown = [false,false,false,false,false];
 	
 	this.mouseUp = (function(e){
 		e.stopPropagation();
 		this.dispatch("mouseup",e);
-		this.keysDown[e.keyCode] = false;
+		this.buttonsDown[e.button] = false;
 	}).bind(this);
 	
 	this.mouseDown = (function(e){
@@ -45,11 +51,18 @@ var input = new (function(){
 		if(e.button == 1 || e.button == 2){
 			e.preventDefault();
 		}
-		this.keysDown[e.keyCode] = true;
+		this.buttonsDown[e.button] = true;
 	}).bind(this);
 	
-	this.isMouseDown = (function(kcode){
-		return this.keysDown[kcode];
+	this.mouseMove = (function(e){
+		this.mouseX = event.offsetX;
+		this.mouseY = event.offsetY;
+		this.mouseDeltaX += event.webkitMovementX;
+		this.mouseDeltaY += event.webkitMovementY;
+	}).bind(this);
+	
+	this.isMouseDown = (function(mcode){
+		return this.buttonsDown[mcode];
 	}).bind(this);
 	
 	this.preventContextMenu = (function(e){
@@ -64,6 +77,7 @@ var input = new (function(){
 			this.target.removeEventListener("keydown", this.keyDown);
 			this.target.removeEventListener("mouseup",   this.mouseUp);
 			this.target.removeEventListener("mousedown", this.mouseDown);
+			this.target.removeEventListener("mousemove", this.mouseMove);
 			this.target.removeEventListener("contextmenu", this.preventContextMenu);
 			this.target = null;
 		}
@@ -78,6 +92,7 @@ var input = new (function(){
 		this.target.addEventListener("keydown", this.keyDown);
 		this.target.addEventListener("mouseup",   this.mouseUp);
 		this.target.addEventListener("mousedown", this.mouseDown);
+		this.target.addEventListener("mousemove", this.mouseMove);
 		this.target.addEventListener("contextmenu", this.preventContextMenu);
 	}).bind(this);
 	
@@ -91,15 +106,19 @@ var input = new (function(){
 	this.middleButton = 1;
 	this.rightButton = 2;
 	
-	this.w	= 87;
-	this.a	= 65;
-	this.s	= 83;
-	this.d	= 68;
-	this.space	= 32;
-	this.enter	= 13;
-	this.up		= 38;
-	this.left	= 37;
-	this.down	= 40;
-	this.right	= 39;
 	
-})();
+}
+
+var KEYS = {
+
+	w		: 87,
+	a		: 65,
+	s		: 83,
+	d		: 68,
+	space	: 32,
+	enter	: 13,
+	up		: 38,
+	left	: 37,
+	down	: 40,
+	right	: 39
+}
