@@ -77,6 +77,8 @@ function cCollider(){
 	this.ppoints = [];
 	this.pnorms  = [];
 	
+	this.lock = false;
+	
 	this.draw = (function(){
 		
 		
@@ -86,8 +88,8 @@ function cCollider(){
 		canvas.ctx.strokeStyle = "cyan";
 		canvas.ctx.moveTo(temp.x,temp.y);
 		
-		for(var i = 1;i<this.ppoints.length;i++){
-			temp = this.ppoints[i];
+		for(var i = 1;i<=this.ppoints.length;i++){
+			temp = this.ppoints[Math.loopover(i, 0, this.ppoints.length)];
 			canvas.ctx.lineTo(temp.x,temp.y);
 		}
 		canvas.ctx.stroke();
@@ -114,7 +116,6 @@ function cCollider(){
 			
 			this.norms.push(vec);
 		}
-		console.log(this.norms);
 		
 		// filter norms to remove similar ones
 		var d;
@@ -204,13 +205,13 @@ function cView(aw, ah, astyle){
 	this.style = astyle;
 	
 	this.run = (function(){
-		var position = this.target.cPosition;
+		/*var position = this.target.cPosition;
 		canvas.ctx.save();
 		canvas.ctx.fillStyle = this.style;
 		canvas.ctx.translate(position.x, position.y);
 		canvas.ctx.rotate(position.r);
 		canvas.ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
-		canvas.ctx.restore();
+		canvas.ctx.restore();*/
 	}).bind(this);
 }
 

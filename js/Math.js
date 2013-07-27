@@ -38,6 +38,10 @@ Math.dot = function(ap, bp){
 	return ap.x*bp.x + ap.y*bp.y;
 }
 
+Math.distsqr = function(pa,pb){
+	return pa.x*pa.x + pb.y*pb.y
+}
+
 
 Math.clip = function (value, lower, upper){
 	if(value<lower){

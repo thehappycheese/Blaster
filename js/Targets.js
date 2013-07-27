@@ -61,10 +61,10 @@ function tEnemy(){
 	this.add(new cPhisics( 1, 0.9999, 0.1));
 	
 	var temp = new cCollider();
-	temp.points.push({x:-3,y:-3});
-	temp.points.push({x: 3,y:-3});
-	temp.points.push({x: 3,y: 3});
-	temp.points.push({x:-3,y: 3});
+	temp.points.push({x:-8,y:-3});
+	temp.points.push({x: 8,y:-3});
+	temp.points.push({x: 8,y: 3});
+	temp.points.push({x:-8,y: 3});
 	temp.bake();
 	this.add(temp);
 	
@@ -75,7 +75,7 @@ function tEnemy(){
 function tPlatform(){
 	Target.call(this);
 	this.update = (function(){
-		
+		this.cVelocity.run();
 	}).bind(this);
 	
 	this.draw = (function(){
@@ -84,12 +84,13 @@ function tPlatform(){
 	}).bind(this);
 	
 	this.add(new cPosition(6, 9, 0));
-	
+	this.add(new cVelocity(0, 0, 0));
 	var temp = new cCollider();
 	temp.points.push({x:-50,y:-5});
 	temp.points.push({x: 50,y:-5});
 	temp.points.push({x: 50,y: 5});
 	temp.points.push({x:-50,y: 5});
+	temp.lock = true;
 	temp.bake();
 	this.add(temp);
 	this.add(new cView(100, 10, "green"));
