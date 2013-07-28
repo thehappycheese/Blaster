@@ -38,8 +38,11 @@ Math.dot = function(ap, bp){
 	return ap.x*bp.x + ap.y*bp.y;
 }
 
-Math.distsqr = function(pa,pb){
+Math.distsqr = function(pa, pb){
 	return pa.x*pa.x + pb.y*pb.y
+}
+Math.dist = function(pa, pb){
+	return Math.sqrt(pa.x*pa.x + pb.y*pb.y);
 }
 
 

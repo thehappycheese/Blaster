@@ -128,4 +128,5 @@ function Canvas(acanvasID){
 	
 	this.fillContainer();
 	window.requestAnimationFrame(this.animate);
+	//setInterval(this.animate,20);
 }

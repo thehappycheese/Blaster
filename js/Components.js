@@ -1,72 +1,3 @@
-function cContainer(ax,ay,aw,ah){
-	this.x = ax;
-	this.y = ay;
-	this.w = aw;
-	this.h = ah;
-	this.friction = 0.8;
-	this.air = true;
-	this.run = (function(){
-		this.air = true;
-		var position 	= this.target.cPosition;
-		var container 	= this.target.cContainer;
-		var velocity 	= this.target.cVelocity;
-		var touch = false;
-		if(position.x>container.x+container.w){
-			position.x = container.x+container.w;
-			velocity.x *= -0.2;
-			velocity.y *= container.friction;
-			touch = true;
-		}
-		if(position.x<container.x){
-			position.x = container.x;
-			velocity.x *= -0.2;
-			velocity.y *= container.friction;
-			touch = true;
-		}
-		if(position.y > container.y+container.h){
-			position.y = container.y+container.h;
-			velocity.y *= -0.4;
-			velocity.x *= container.friction;
-			touch = true;
-		}
-		if(position.y < container.y){
-			position.y = container.y;
-			velocity.y *= -0.4;
-			velocity.x *= container.friction;
-			touch = true;
-		}
-		if(touch){
-			this.air = false;
-		}
-	}).bind(this);
-}
-
-function cController(){
-	this.air = false;
-	this.run = (function(){
-		var velocity = this.target.cVelocity;
-		var container = this.target.cContainer;
-		var sped = 1;
-		if(container.air == true){
-			sped = 0.05
-		}else{
-			if(canvas.isKeyDown(KEYS.w) || canvas.isKeyDown(KEYS.up)){
-				velocity.y -= 5*sped;
-			}
-		}
-		if(canvas.isKeyDown(KEYS.a) || canvas.isKeyDown(KEYS.left)){
-			velocity.x -= sped;
-		}
-		if(canvas.isKeyDown(KEYS.s) || canvas.isKeyDown(KEYS.down)){
-			velocity.y += sped;
-		}
-		if(canvas.isKeyDown(KEYS.d)  || canvas.isKeyDown(KEYS.right)){
-			velocity.x += sped;
-		}
-
-	}).bind(this);
-
-}
 
 function cCollider(){
 	// clockwise points
@@ -85,14 +16,13 @@ function cCollider(){
 		var temp = this.ppoints[0];
 		// GLOBAL REF
 		canvas.ctx.beginPath();
-		canvas.ctx.strokeStyle = "cyan";
 		canvas.ctx.moveTo(temp.x,temp.y);
 		
 		for(var i = 1;i<=this.ppoints.length;i++){
 			temp = this.ppoints[Math.loopover(i, 0, this.ppoints.length)];
 			canvas.ctx.lineTo(temp.x,temp.y);
 		}
-		canvas.ctx.stroke();
+		canvas.ctx.fill();
 		
 	}).bind(this);
 	
@@ -124,7 +54,7 @@ function cCollider(){
 				a = this.norms[i];
 				b = this.norms[j];
 				if(Math.abs(Math.dot(a,b)) == 1){
-					// normals are in same direction destroy one of them
+					// normals are in same direction; destroy one of them
 					this.norms.splice(j, 1);
 					j--;
 				}
@@ -196,25 +126,6 @@ function cVelocity(ax, ay, ar){
 		position.r += this.r;
 	}).bind(this);
 }
-
-
-function cView(aw, ah, astyle){
-	
-	this.w 			= aw || 0;
-	this.h 			= ah || 0;
-	this.style = astyle;
-	
-	this.run = (function(){
-		/*var position = this.target.cPosition;
-		canvas.ctx.save();
-		canvas.ctx.fillStyle = this.style;
-		canvas.ctx.translate(position.x, position.y);
-		canvas.ctx.rotate(position.r);
-		canvas.ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
-		canvas.ctx.restore();*/
-	}).bind(this);
-}
-
 
 
 
