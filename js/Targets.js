@@ -11,7 +11,7 @@ function TargetManager(){
 	this.removeTarget = (function(obj){
 		for(var i = 0; i <this.targets.length;i++){
 			if(this.targets[i] === obj){
-				this.targets.splice(i,1);
+				this.targets.splice(i, 1);
 				break;
 			}
 		}
@@ -42,10 +42,10 @@ function tPlayer(){
 	this.add(new cPhisics( 1, 0.95, 1));
 	
 	var temp = new cCollider();
-	temp.points.push({x:-5,y:-5});
-	temp.points.push({x: 5,y:-5});
-	temp.points.push({x: 5,y: 5});
-	temp.points.push({x:-5,y: 5});
+	temp.points.push({x:-10,y:-10});
+	temp.points.push({x: 10,y:-10});
+	temp.points.push({x: 10,y: 10});
+	temp.points.push({x:-10,y: 10});
 	temp.bake();
 	this.add(temp);
 	
@@ -93,10 +93,10 @@ function tEnemy(){
 	this.add(new cPhisics( 1, 0.9999, 0.1));
 	
 	var temp = new cCollider();
-	temp.points.push({x:-8,y:-3});
-	temp.points.push({x: 8,y:-3});
-	temp.points.push({x: 8,y: 3});
-	temp.points.push({x:-8,y: 3});
+	temp.points.push({x:-10,y:-4});
+	temp.points.push({x: 10,y:-4});
+	temp.points.push({x: 10,y: 4});
+	temp.points.push({x:-10,y: 4});
 	temp.bake();
 	this.add(temp);
 	

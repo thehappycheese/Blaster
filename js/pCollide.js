@@ -104,8 +104,8 @@ function pCollide(a, b){
 				b.target.air = false;
 			}
 		if(!a.lock){
-			a.target.cPosition.x += pen.dir.x * qq ;
-			a.target.cPosition.y += pen.dir.y * qq;
+			a.target.cPosition.x += pen.dir.x * qq/1.1;
+			a.target.cPosition.y += pen.dir.y * qq/1.1;
 			if(a.target.cVelocity){
 				//a.target.cVelocity.x *=0.9;
 				//a.target.cVelocity.y *=0.9;
@@ -114,8 +114,8 @@ function pCollide(a, b){
 			}
 		}
 		if(!b.lock){
-			b.target.cPosition.x -= pen.dir.x * qq;
-			b.target.cPosition.y -= pen.dir.y * qq;
+			b.target.cPosition.x -= pen.dir.x * qq/1.1;
+			b.target.cPosition.y -= pen.dir.y * qq/1.1;
 			
 			if(b.target.cVelocity){
 				//a.target.cVelocity.x *=0.9;
