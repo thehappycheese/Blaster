@@ -60,23 +60,22 @@ function pCollide(a, b){
 		// Determine if a collision has occured;
 		ao.w = ao.max - ao.min;
 		bo.w = bo.max - bo.min;
+        
+        // Calculate potential penetration
+        //    [----a----]
+		//         [----b---]
+		//         [-p1-]
+        p1 =  ao.max - bo.min;
+        //          [----a----]
+		//      [----b---]
+		//          [-p2-]
+        p2 =  bo.max - ao.min;
 		
-		if(Math.max(bo.max-ao.min, ao.max-bo.min)>(ao.w+bo.w)){
+		if(Math.max(p2, p1)>(ao.w+bo.w)){
 			separated = true;
 			break;
 		}else{
 			// calculate min penetration
-			
-			//    [----a----]
-			//         [----b---]
-			//         [-p1-]
-			p1 =  ao.max - bo.min;
-			
-			//          [----a----]
-			//      [----b---]
-			//          [-p2-]
-			p2 =  bo.max - ao.min;
-			
 			if(p1<p2){
 				if(Math.abs(p1)<Math.abs(pen.mag)){
 					pen.mag = -p1;
